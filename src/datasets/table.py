@@ -190,17 +190,17 @@ class Table(IndexedTableMixin):
     def __getstate__(self):
         # We can't pickle objects that are bigger than 4GiB, or it causes OverflowError
         # So we write the table on disk instead
-        if self.table.nbytes >= config.MAX_TABLE_NBYTES_FOR_PICKLING:
-            table = self.table
-            with tempfile.NamedTemporaryFile("wb", delete=False, suffix=".arrow") as tmp_file:
-                filename = tmp_file.name
-                logger.debug(
-                    f"Attempting to pickle a table bigger than 4GiB. Writing it on the disk instead at {filename}"
-                )
-                _write_table_to_file(table=table, filename=filename)
-                return {"path": filename}
-        else:
-            return {"table": self.table}
+        #if self.table.nbytes >= config.MAX_TABLE_NBYTES_FOR_PICKLING:
+        #    table = self.table
+        #    with tempfile.NamedTemporaryFile("wb", delete=False, suffix=".arrow") as tmp_file:
+        #        filename = tmp_file.name
+        #        logger.debug(
+        #            f"Attempting to pickle a table bigger than 4GiB. Writing it on the disk instead at {filename}"
+        #        )
+        #        _write_table_to_file(table=table, filename=filename)
+        #        return {"path": filename}
+        #else:
+        return {"table": self.table}
 
     def __setstate__(self, state):
         if "path" in state:
